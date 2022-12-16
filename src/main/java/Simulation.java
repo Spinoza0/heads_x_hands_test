@@ -81,12 +81,6 @@ public class Simulation {
     }
 
     private int checkCreaturesSum(int sum, int maxSum) {
-        int result;
-        if (sum <= 0 || sum > maxSum) {
-            result = maxSum;
-        } else {
-            result = sum;
-        }
-        return result;
+        return (sum <= 0 || sum > maxSum) ? maxSum : sum;
     }
 }

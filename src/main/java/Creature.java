@@ -15,15 +15,20 @@ public abstract class Creature {
     public abstract String getCreatureType();
 
     public Creature(String name, int attack, int protection, int maxHealth, int damageMin, int damageMax) {
-        this.name = name;
-        this.attack = Math.abs(attack);
-        this.protection = Math.abs(protection);
-        this.maxHealth = Math.abs(maxHealth);
-        this.health = maxHealth;
-        this.damageMin = Math.abs(damageMin);
-        this.damageMax = Math.abs(damageMax);
-        checkOptions();
+        setOptions(name, attack, protection, maxHealth, damageMin, damageMax);
         Message.display(Message.Type.CREATED, this);
+    }
+
+    private void setOptions(String name, int attack, int protection, int maxHealth, int damageMin, int damageMax) {
+        this.name = (name == null || name.isEmpty()) ? ("Unknown " + getCreatureType()) : name;
+        this.attack = Math.min(MAX_ATTACK_AND_PROTECTION, Math.max(Math.abs(attack), 1));
+        this.protection = Math.min(MAX_ATTACK_AND_PROTECTION, Math.max(Math.abs(protection), 1));
+
+        this.maxHealth = Math.min(MAX_HEALTH, Math.max(Math.abs(maxHealth), 1));
+        this.health = this.maxHealth;
+
+        this.damageMax = Math.min(MAX_DAMAGE, Math.abs(damageMax));
+        this.damageMin = Math.min(this.damageMax, Math.max(MIN_DAMAGE, Math.abs(damageMin)));
     }
 
     public String getName() {
@@ -50,67 +55,28 @@ public abstract class Creature {
         return health <= 0;
     }
 
-    private void checkOptions() {
-        if (name == null || name.isEmpty()) {
-            name = "Unknown " + getCreatureType();
-        }
-
-        if (attack == 0) {
-            attack = 1;
-        } else if (attack > MAX_ATTACK_AND_PROTECTION) {
-            attack = MAX_ATTACK_AND_PROTECTION;
-        }
-        if (protection == 0) {
-            protection = 1;
-        } else if (protection > MAX_ATTACK_AND_PROTECTION) {
-            protection = MAX_ATTACK_AND_PROTECTION;
-        }
-
-
-        if (health > MAX_HEALTH) {
-            health = MAX_HEALTH;
-            maxHealth = MAX_HEALTH;
-        }
-
-        damageMin = Math.max(MIN_DAMAGE, damageMin);
-        damageMax = Math.min(MAX_DAMAGE, damageMax);
-        if (damageMin > damageMax) {
-            damageMin = damageMax;
-        }
-    }
-
-    public void setHealth(int newHealth) {
+    protected void setHealth(int newHealth) {
         if (!isDead() && newHealth > 0 && health < newHealth) {
-            health = newHealth;
-            if (health > maxHealth) {
-                health = maxHealth;
-            }
+            health = Math.min(maxHealth, newHealth);
         }
     }
 
     public void decreaseHealth(int delta) {
         boolean result = false;
         if (!isDead() && delta > 0) {
-            health = health - delta;
-            if (health < 0) {
-                health = 0;
-            }
+            health = Math.max(0, health - delta);
             Message.display(Message.Type.HEALTH_DECREASED, this);
             result = true;
         }
         if (result && isDead()) {
             Message.display(Message.Type.DESTROYED, this);
-
         }
     }
 
     public void attackTo(Creature targetCreature) {
         if (!isDead() && !targetCreature.isDead()) {
             Message.display(Message.Type.ATTACK_STARTED, this, targetCreature);
-            int attackModifier = attack - targetCreature.protection + 1;
-            if (attackModifier <= 0) {
-                attackModifier = 1;
-            }
+            int attackModifier = Math.max(1, attack - targetCreature.protection + 1);
             boolean attackSuccess = false;
             for (int i = 0; i < attackModifier; i++) {
                 if (Main.getRandom(1, 6) >= 5) {
