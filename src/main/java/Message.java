@@ -33,114 +33,93 @@ public class Message {
                                String monstersTypeName,
                                int playersSum,
                                int monstersSum) {
-        String text;
-        switch (type) {
-            case CREATED:
-                text = String.format(
-                        "%sThe %s %s was created!%s Attack=%s, protection=%s, health=%s",
-                        Color.BLUE,
-                        creature.getCreatureType(),
-                        creature.getName(),
-                        Color.RESET,
-                        creature.getAttack(),
-                        creature.getProtection(),
-                        creature.getHealth()
-                );
-                break;
-            case DESTROYED:
-                text = String.format(
-                        "%sThe %s %s was killed!%s",
-                        Color.RED,
-                        creature.getCreatureType(),
-                        creature.getName(),
-                        Color.RESET
-                );
-                break;
-            case HEALTH_RESTORED:
-                text = String.format(
-                        "%sThe %s %s health restored to %s!%s",
-                        Color.GREEN,
-                        creature.getCreatureType(),
-                        creature.getName(),
-                        creature.getHealth(),
-                        Color.RESET
-                );
-                break;
-            case HEALTH_DECREASED:
-                text = String.format(
-                        "%sThe %s %s health decreased to %s!%s",
-                        Color.CYAN,
-                        creature.getCreatureType(),
-                        creature.getName(),
-                        creature.getHealth(),
-                        Color.RESET
-                );
-                break;
-            case ATTACK_STARTED:
-                text = String.format(
-                        "BATTLE: %s %s (attack=%s, protection=%s, health=%s) attacks -> " +
-                                "%s %s (attack=%s, protection=%s, health=%s)",
-                        creature.getCreatureType(),
-                        creature.getName(),
-                        creature.getAttack(),
-                        creature.getProtection(),
-                        creature.getHealth(),
-                        otherCreature.getCreatureType(),
-                        otherCreature.getName(),
-                        otherCreature.getAttack(),
-                        otherCreature.getProtection(),
-                        otherCreature.getHealth()
-                );
-                break;
-            case ATTACK_SUCCESSFUL:
-                text = String.format(
-                        "BATTLE: RESULT of attack %s %s -> %s %s -> %ssuccessful%s!",
-                        creature.getCreatureType(),
-                        creature.getName(),
-                        otherCreature.getCreatureType(),
-                        otherCreature.getName(),
-                        Color.GREEN,
-                        Color.RESET
-                );
-                break;
-            case ATTACK_FAILED:
-                text = String.format(
-                        "BATTLE: RESULT of attack %s %s -> %s %s -> %sfailed%s!",
-                        creature.getCreatureType(),
-                        creature.getName(),
-                        otherCreature.getCreatureType(),
-                        otherCreature.getName(),
-                        Color.RED,
-                        Color.RESET
-                );
-                break;
-            case BATTLE_STARTED:
-                text = String.format(
-                        "BATTLE STARTED: %s=%s, %s=%s",
-                        playersTypeName,
-                        playersSum,
-                        monstersTypeName,
-                        monstersSum
-                );
-                break;
-            case BATTLE_FINISHED:
-                text = String.format(
-                        "BATTLE FINISHED: %s=%s, %s=%s",
-                        playersTypeName,
-                        playersSum,
-                        monstersTypeName,
-                        monstersSum
-                );
-                break;
-            default:
-                text = "";
-        }
+        String text = switch (type) {
+            case CREATED -> String.format(
+                    "%sThe %s %s was created!%s Attack=%s, protection=%s, health=%s",
+                    Color.BLUE,
+                    creature.getCreatureType(),
+                    creature.getName(),
+                    Color.RESET,
+                    creature.getAttack(),
+                    creature.getProtection(),
+                    creature.getHealth()
+            );
+            case DESTROYED -> String.format(
+                    "%sThe %s %s was killed!%s",
+                    Color.RED,
+                    creature.getCreatureType(),
+                    creature.getName(),
+                    Color.RESET
+            );
+            case HEALTH_RESTORED -> String.format(
+                    "%sThe %s %s health restored to %s!%s",
+                    Color.GREEN,
+                    creature.getCreatureType(),
+                    creature.getName(),
+                    creature.getHealth(),
+                    Color.RESET
+            );
+            case HEALTH_DECREASED -> String.format(
+                    "%sThe %s %s health decreased to %s!%s",
+                    Color.CYAN,
+                    creature.getCreatureType(),
+                    creature.getName(),
+                    creature.getHealth(),
+                    Color.RESET
+            );
+            case ATTACK_STARTED -> String.format(
+                    "BATTLE: %s %s (attack=%s, protection=%s, health=%s) attacks -> " +
+                            "%s %s (attack=%s, protection=%s, health=%s)",
+                    creature.getCreatureType(),
+                    creature.getName(),
+                    creature.getAttack(),
+                    creature.getProtection(),
+                    creature.getHealth(),
+                    otherCreature.getCreatureType(),
+                    otherCreature.getName(),
+                    otherCreature.getAttack(),
+                    otherCreature.getProtection(),
+                    otherCreature.getHealth()
+            );
+            case ATTACK_SUCCESSFUL -> String.format(
+                    "BATTLE: RESULT of attack %s %s -> %s %s -> %ssuccessful%s!",
+                    creature.getCreatureType(),
+                    creature.getName(),
+                    otherCreature.getCreatureType(),
+                    otherCreature.getName(),
+                    Color.GREEN,
+                    Color.RESET
+            );
+            case ATTACK_FAILED -> String.format(
+                    "BATTLE: RESULT of attack %s %s -> %s %s -> %sfailed%s!",
+                    creature.getCreatureType(),
+                    creature.getName(),
+                    otherCreature.getCreatureType(),
+                    otherCreature.getName(),
+                    Color.RED,
+                    Color.RESET
+            );
+            case BATTLE_STARTED -> String.format(
+                    "BATTLE STARTED: %s=%s, %s=%s",
+                    playersTypeName,
+                    playersSum,
+                    monstersTypeName,
+                    monstersSum
+            );
+            case BATTLE_FINISHED -> String.format(
+                    "BATTLE FINISHED: %s=%s, %s=%s",
+                    playersTypeName,
+                    playersSum,
+                    monstersTypeName,
+                    monstersSum
+            );
+        };
         if (!text.isEmpty()) {
             System.out.println(text);
         }
     }
 
-    public class Color {
+    private static class Color {
         public static final String RESET = "\033[0m";  // Text Reset
 
         public static final String BLACK = "\033[0;30m";   // BLACK

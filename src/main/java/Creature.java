@@ -79,14 +79,14 @@ public abstract class Creature {
             int attackModifier = Math.max(1, attack - targetCreature.protection + 1);
             boolean attackSuccess = false;
             for (int i = 0; i < attackModifier; i++) {
-                if (Main.getRandom(1, 6) >= 5) {
+                if (Random.get(1, 6) >= 5) {
                     attackSuccess = true;
                     break;
                 }
             }
             if (attackSuccess) {
                 Message.display(Message.Type.ATTACK_SUCCESSFUL, this, targetCreature);
-                targetCreature.decreaseHealth(Main.getRandom(damageMin, damageMax));
+                targetCreature.decreaseHealth(Random.get(damageMin, damageMax));
             } else {
                 Message.display(Message.Type.ATTACK_FAILED, this, targetCreature);
             }

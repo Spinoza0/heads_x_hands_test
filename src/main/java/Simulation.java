@@ -22,22 +22,22 @@ public class Simulation {
         for (int i = 0; i < playersSum; i++) {
             players.add(new Player(
                     "Man" + (i + 1),
-                    Main.getRandom(10, 20),
-                    Main.getRandom(10, 20),
-                    Main.getRandom(30, 60),
-                    Main.getRandom(1, 20),
-                    Main.getRandom(1, 20))
+                    Random.get(10, 20),
+                    Random.get(10, 20),
+                    Random.get(30, 60),
+                    Random.get(1, 20),
+                    Random.get(1, 20))
             );
         }
 
         for (int i = 0; i < monstersSum; i++) {
             monsters.add(new Monster(
                     "Monster" + (i + 1),
-                    Main.getRandom(10, 20),
-                    Main.getRandom(10, 20),
-                    Main.getRandom(30, 60),
-                    Main.getRandom(1, 20),
-                    Main.getRandom(1, 20))
+                    Random.get(10, 20),
+                    Random.get(10, 20),
+                    Random.get(30, 60),
+                    Random.get(1, 20),
+                    Random.get(1, 20))
             );
         }
     }
@@ -53,14 +53,14 @@ public class Simulation {
                 monsters.size()
         );
         while (!players.isEmpty() && !monsters.isEmpty()) {
-            int playersAttack = Main.getRandom(0, 1);
+            int playersAttack = Random.get(0, 1);
             if (playersAttack == 1) {
-                creature1 = players.get(Main.getRandom(0, players.size() - 1));
-                creature2 = monsters.get(Main.getRandom(0, monsters.size() - 1));
+                creature1 = players.get(Random.get(0, players.size() - 1));
+                creature2 = monsters.get(Random.get(0, monsters.size() - 1));
 
             } else {
-                creature1 = monsters.get(Main.getRandom(0, monsters.size() - 1));
-                creature2 = players.get(Main.getRandom(0, players.size() - 1));
+                creature1 = monsters.get(Random.get(0, monsters.size() - 1));
+                creature2 = players.get(Random.get(0, players.size() - 1));
             }
             creature1.attackTo(creature2);
             if (creature2.isDead()) {
